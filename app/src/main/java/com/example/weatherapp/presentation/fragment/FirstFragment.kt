@@ -27,11 +27,19 @@ class FirstFragment : Fragment() {
     private val locationObserver = Observer<ApiResponse<List<LatLon>>> { apiResponse ->
         when (apiResponse) {
             is ApiResponse.Success -> {
-                viewModel.getWeather(apiResponse.data[0])
+                val data = apiResponse.data
+                if (data.isNotEmpty()) {
+                    viewModel.getWeather(data[0])
+                } else {
+                    // Handle the case when the list is empty
+                    val snackbar = Snackbar.make(binding!!.root, "No results found for your search", Snackbar.LENGTH_SHORT)
+                    snackbar.show()
+                }
             }
 
             is ApiResponse.Failure -> {
-
+                val snackbar = Snackbar.make(binding!!.root, "No results found for your search", Snackbar.LENGTH_SHORT)
+                snackbar.show()
             }
         }
     }
@@ -41,6 +49,8 @@ class FirstFragment : Fragment() {
             val bundle = bundleOf(SecondFragment.ACTION_WEATHER to response.data)
             findNavController().navigate(R.id.action_firstFragment_to_secondFragment, bundle)
         }
+
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

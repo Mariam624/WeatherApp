@@ -49,7 +49,7 @@ class SecondFragment : Fragment() {
             tvDeg.text="Wind direction = ${it.deg.toString()}"
             tvGust.text="Wind gust = ${it.gust.toString()}"
         }
-         tvRain.text = " Rain volume(last hour) = ${weather?.rain?.oneH.toString()?: "it's not raining"} "
+         tvRain.text = " Rain volume(last hour) = ${weather?.rain?.oneH.toString()} "
     }
 
     override fun onDestroy() {
